@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>HP Anda Telah Diretas!</title>
+<style>
+  :root{
+    --bg:#0b0f17;
+    --accent:#ff3b30;
+    --muted:#a7b1c2;
+  }
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+  body{
+    background: radial-gradient(ellipse at center, rgba(255,59,48,0.06), transparent 40%), var(--bg);
+    color:#e6eef8;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .screen{
+    width:100%;
+    max-width:880px;
+    margin:20px;
+    border-radius:12px;
+    box-shadow: 0 20px 60px rgba(2,6,23,0.7);
+    overflow:hidden;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.03);
+  }
+
+  .topbar{
+    height:48px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:0 14px;
+    background: linear-gradient(90deg, rgba(255,59,48,0.06), transparent 40%);
+    border-bottom:1px solid rgba(255,59,48,0.06);
+  }
+
+  .dot{width:10px;height:10px;border-radius:50%;}
+  .dot.red{background:#ff3b30}
+  .dot.yellow{background:#ffcc00}
+  .dot.green{background:#28c840}
+
+  .content{
+    padding:34px;
+    display:grid;
+    grid-template-columns: 1fr 320px;
+    gap:24px;
+  }
+
+  .left{
+    min-height:320px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    justify-content:center;
+  }
+
+  h1{
+    margin:0;
+    font-size:34px;
+    letter-spacing:0.5px;
+    line-height:1.05;
+    color:var(--accent);
+    text-shadow: 0 4px 18px rgba(255,59,48,0.18);
+  }
+
+  .sub{
+    color:var(--muted);
+    margin-top:6px;
+    font-size:14px;
+  }
+
+  .console{
+    background:rgba(2,6,23,0.55);
+    border-radius:8px;
+    padding:14px;
+    font-family: "Courier New",monospace;
+    font-size:13px;
+    color:#9be6a3;
+    min-height:160px;
+    box-shadow: inset 0 -6px 30px rgba(0,0,0,0.6);
+    overflow:auto;
+  }
+
+  .progressWrap{
+    margin-top:14px;
+  }
+  .progress{
+    height:12px;
+    background:rgba(255,255,255,0.06);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .bar{
+    height:100%;
+    width:0%;
+    background: linear-gradient(90deg,#ff3b30,#ff7a5a);
+    transition:width 300ms linear;
+  }
+
+  .right{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .countdown{
+    font-family: "Courier New", monospace;
+    font-size:30px;
+    color:#ffd7d2;
+    background: rgba(255,59,48,0.06);
+    border-radius:8px;
+    padding:12px 18px;
+    width:100%;
+    text-align:center;
+  }
+
+  .btn{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    border:0;
+    cursor:pointer;
+    font-weight:600;
+    margin-top:6px;
+  }
+
+  .btn.stop{
+    background:#ff3b30;color:white;
+    box-shadow: 0 6px 18px rgba(255,59,48,0.18);
+  }
+  .btn.reveal{
+    background:transparent;color:#9fb3d4;border:1px solid rgba(255,255,255,0.06);
+  }
+
+  .revealNote{
+    margin-top:10px;
+    color:var(--muted);
+    font-size:13px;
+    text-align:center;
+  }
+
+  /* subtle glitch text */
+  .glitch{
+    position:relative;
+    display:inline-block;
+  }
+  .glitch::before,.glitch::after{
+    content:attr(data-text);
+    position:absolute;
+    left:0;top:0;
+    width:100%;
+    opacity:0.85;
+  }
+  .glitch::before{transform:translate(2px,-1px);color:#ff8a80;mix-blend-mode:screen;clip-path:inset(0 0 60% 0);}
+  .glitch::after{transform:translate(-2px,1px);color:#ffd1c1;mix-blend-mode:screen;clip-path:inset(60% 0 0 0);}
+
+  @media(max-width:880px){
+    .content{grid-template-columns:1fr; padding:18px;}
+    .right{order:2}
+    .left{order:1}
+  }
+
+  /* accessibility: reduce motion respects */
+  @media (prefers-reduced-motion: reduce){
+    .bar{transition:none}
+  }
+</style>
+</head>
+<body>
+  <div class="screen" role="dialog" aria-labelledby="mainTitle" aria-describedby="desc">
+    <div class="topbar">
+      <div class="dot red" aria-hidden="true"></div>
+      <div class="dot yellow" aria-hidden="true"></div>
+      <div class="dot green" aria-hidden="true"></div>
+      <div style="flex:1"></div>
+      <div style="font-size:12px;color:var(--muted)">Prank Module • Secure Mode</div>
+    </div>
+
+    <div class="content">
+      <div class="left">
+        <h1 id="mainTitle"><span class="glitch" data-text="HP ANDA TELAH DIRETAS!">HP ANDA TELAH DIRETAS!</span></h1>
+        <div id="desc" class="sub">Semua data terhubung. Akses root terdeteksi — mengeksekusi protokol kontrol...</div>
+
+        <div class="console" id="console" aria-live="polite" role="status">
+          <div>> Mendeteksi jaringan seluler...</div>
+          <div>> Menyusun daftar aplikasi...</div>
+        </div>
+
+        <div class="progressWrap" aria-hidden="false">
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px">
+            <div>Proses injeksi</div><div id="percent">0%</div>
+          </div>
+          <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="bar" id="bar"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right" aria-hidden="false">
+        <div class="countdown" id="countdown">00:30</div>
+        <button class="btn stop" id="stopBtn">HENTIKAN</button>
+        <button class="btn reveal" id="revealBtn">click</button>
+    
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const consoleEl = document.getElementById('console');
+  const bar = document.getElementById('bar');
+  const percent = document.getElementById('percent');
+  const countdownEl = document.getElementById('countdown');
+  const stopBtn = document.getElementById('stopBtn');
+  const revealBtn = document.getElementById('revealBtn');
+
+  let progress = 0;
+  let countdown = 30; // seconds
+  let running = true;
+  let sound;
+
+  // small helper to append line to console
+  function logLine(text, tone='info'){
+    const d = document.createElement('div');
+    d.textContent = '> ' + text;
+    if(tone==='warn') d.style.color = '#ffd79a';
+    consoleEl.appendChild(d);
+    consoleEl.scrollTop = consoleEl.scrollHeight;
+  }
+
+  // fake log sequence
+  const seq = [
+    'Mendeteksi jaringan seluler...',
+    'Menemukan 1 koneksi tersuspicious...',
+    'Mengekstrak metadata aplikasi...',
+    'Mencoba hak akses (root) — gagal, mencoba exploit fallback...',
+    'Memasukkan payload ke sandbox...',
+    'Mencuri versi kontak (hash)...',
+    'Mempersiapkan channel komunikasi...',
+  ];
+
+  let seqIdx = 0;
+  const seqInterval = setInterval(()=>{
+    if(seqIdx < seq.length && running){
+      logLine(seq[seqIdx++]);
+    }
+  }, 1600);
+
+  // progress + countdown timer
+  const tick = setInterval(()=>{
+    if(!running) return;
+    progress += Math.random()*6 + 2; // random step
+    if(progress > 100) progress = 100;
+    bar.style.width = progress + '%';
+    percent.textContent = Math.floor(progress) + '%';
+    document.querySelector('.progress').setAttribute('aria-valuenow', Math.floor(progress));
+
+    // occasionally add console lines
+    if(Math.random() > 0.7){
+      const msgs = ['Menulis log...', 'Menyusup ke penyimpanan internal...', 'Mendeteksi daftar kontak...', 'Mencari file media...'];
+      logLine(msgs[Math.floor(Math.random()*msgs.length)]);
+    }
+
+    if(progress >= 100){
+      logLine('Payload dieksekusi. Akses kontrol penuh diperoleh. Menjalankan loop persistence...', 'warn');
+      running = false;
+      stopSound();
+      countdownEl.textContent = 'SELESAI';
+    }
+  }, 900);
+
+  const countdownInterval = setInterval(()=>{
+    if(!running) return;
+    countdown--;
+    if(countdown < 0) countdown = 0;
+    const mm = String(Math.floor(countdown/60)).padStart(2,'0');
+    const ss = String(countdown%60).padStart(2,'0');
+    countdownEl.textContent = mm + ':' + ss;
+    if(countdown === 0){
+      // simulate final event
+      logLine('Timer habis. Menyelesaikan prosedur terakhir...');
+      running = false;
+      stopSound();
+    }
+  }, 1000);
+
+  // tiny beep loop using WebAudio
+  function playSound(){
+    try{
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sawtooth';
+      o.frequency.value = 440;
+      g.gain.value = 0.0035;
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start();
+      // slight vibrato
+      const lfo = ctx.createOscillator();
+      const lfoGain = ctx.createGain();
+      lfo.frequency.value = 6;
+      lfoGain.gain.value = 30;
+      lfo.connect(lfoGain);
+      lfoGain.connect(o.frequency);
+      lfo.start();
+      sound = {ctx,o,lfo};
+    }catch(e){
+      // audio blocked or unavailable
+      console.warn('Audio unavailable', e);
+    }
+  }
+  function stopSound(){
+    if(sound && sound.ctx){
+      try{
+        sound.o.stop();
+        sound.lfo.stop();
+        sound.ctx.close();
+      }catch(e){}
+      sound = null;
+    }
+  }
+
+  // start sound after a short user gesture if necessary
+  function tryStartSound(){
+    // mobile browsers block autoplay — start only on first touch/click
+    playSound();
+    document.removeEventListener('click', tryStartSound);
+    document.removeEventListener('touchstart', tryStartSound);
+  }
+  document.addEventListener('click', tryStartSound);
+  document.addEventListener('touchstart', tryStartSound);
+
+  // stop button
+  stopBtn.addEventListener('click', ()=>{
+    running = false;
+    logLine('Proses dihentikan oleh pengguna. Menjalankan pembersihan...', 'warn');
+    stopSound();
+    bar.style.width = '0%';
+    percent.textContent = '0%';
+    countdownEl.textContent = '--:--';
+  });
+
+  // reveal (prank) button
+  revealBtn.addEventListener('click', ()=>{
+    running = false;
+    stopSound();
+    logLine('=== INI HANYA PRANK ===', 'warn');
+    const p = document.createElement('div');
+    p.style.marginTop = '10px';
+    p.style.padding = '12px';
+    p.style.borderRadius = '8px';
+    p.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))';
+    p.style.color = '#cfeaff';
+    p.innerHTML = '<strong>Tenang — ini hanya lelucon.</strong><br>Kamu bisa tutup tab ini sekarang. Jangan gunakan prank ini untuk menakut-nakuti orang yang bisa terganggu.';
+    consoleEl.appendChild(p);
+    consoleEl.scrollTop = consoleEl.scrollHeight;
+    countdownEl.textContent = 'PRANK';
+  });
+
+  // accessibility: allow keyboard reveal (R) and stop (S)
+  document.addEventListener('keydown', (e)=>{
+    if(e.key.toLowerCase() === 'r') revealBtn.click();
+    if(e.key.toLowerCase() === 's') stopBtn.click();
+  });
+
+  // initial logs
+  logLine('Inisialisasi modul prank v1.0');
+  logLine('Menyiapkan environment...');
+})();
+</script>
+</body>
+</html>
